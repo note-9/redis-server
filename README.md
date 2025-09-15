@@ -12,3 +12,10 @@ A lightweight key-value data store implemented in C++ that mimics core Redis fun
 ```bash
 g++ -std=c++17 -O2 -o redis_clone main.cpp
 ./redis_clone
+```
+Connect using telnet or nc:
+``` bash
+nc localhost 6379
+SET key value
+GET key
+```
