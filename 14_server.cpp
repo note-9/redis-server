@@ -792,7 +792,7 @@ static void process_timers() {
     size_t nworks = 0;
     const std::vector<HeapItem> &heap = g_data.heap;
     while (!heap.empty() && heap[0].val < now_ms) {
-        Entry *ent = container_of(static_cast<HNode*>(heap[0].ref), &Entry::heap_idx);
+        Entry *ent = container_of(reinterpret_cast<size_t*>(heap[0].ref), &Entry::heap_idx);
         HNode *node = hm_delete(&g_data.db, &ent->node, &hnode_same);
         assert(node == &ent->node);
         // fprintf(stderr, "key expired: %s\n", ent->key.c_str());
