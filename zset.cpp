@@ -30,7 +30,7 @@ static size_t min(size_t lhs, size_t rhs) {
 static bool zless(
     AVLNode *lhs, double score, const char *name, size_t len)
 {
-    ZNode *zl = container_of(lhs, ZNode, tree);
+    ZNode *zl = container_of(static_cast<AVLNode*>(lhs), &ZNode::tree);
     if (zl->score != score) {
         return zl->score < score;
     }
