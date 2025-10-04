@@ -42,7 +42,7 @@ static bool zless(
 }
 
 static bool zless(AVLNode *lhs, AVLNode *rhs) {
-    ZNode *zr = container_of(static_cast<AVLNode*(rhs), &ZNode::tree);
+    ZNode *zr = container_of(static_cast<AVLNode*>(rhs), &ZNode::tree);
     return zless(lhs, zr->score, zr->name, zr->len);
 }
 
