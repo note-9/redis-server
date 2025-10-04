@@ -42,7 +42,7 @@ static bool zless(
 }
 
 static bool zless(AVLNode *lhs, AVLNode *rhs) {
-    ZNode *zr = container_of(rhs, ZNode, tree);
+    ZNode *zr = container_of(static_cast<AVLNode*(rhs), &ZNode::tree);
     return zless(lhs, zr->score, zr->name, zr->len);
 }
 
@@ -94,13 +94,14 @@ struct HKey {
 };
 
 static bool hcmp(HNode *node, HNode *key) {
-    ZNode *znode = container_of(node, ZNode, hmap);
-    HKey *hkey = container_of(key, HKey, node);
+    ZNode *znode = container_of(static_cast<HNode*>(node), &ZNode::hmap);
+    HKey *hkey = container_of(static_cast<HNode*>(key), &HKey::node);
     if (znode->len != hkey->len) {
         return false;
     }
     return 0 == memcmp(znode->name, hkey->name, znode->len);
 }
+
 
 // lookup by name
 ZNode *zset_lookup(ZSet *zset, const char *name, size_t len) {
@@ -113,8 +114,9 @@ ZNode *zset_lookup(ZSet *zset, const char *name, size_t len) {
     key.name = name;
     key.len = len;
     HNode *found = hm_lookup(&zset->hmap, &key.node, &hcmp);
-    return found ? container_of(found, ZNode, hmap) : NULL;
+    return found ? container_of(static_cast<HNode*>(found), &ZNode::hmap) : NULL;
 }
+
 
 // delete a node
 void zset_delete(ZSet *zset, ZNode *node) {
@@ -142,13 +144,13 @@ ZNode *zset_seekge(ZSet *zset, double score, const char *name, size_t len) {
             node = node->left;
         }
     }
-    return found ? container_of(found, ZNode, tree) : NULL;
+    return found ? container_of(static_cast<AVLNode*>(found), &ZNode::tree) : NULL;
 }
 
 // offset into the succeeding or preceding node.
 ZNode *znode_offset(ZNode *node, int64_t offset) {
     AVLNode *tnode = node ? avl_offset(&node->tree, offset) : NULL;
-    return tnode ? container_of(tnode, ZNode, tree) : NULL;
+    return tnode ? container_of(static_cast<AVLNode*>(tnode), &ZNode::tree) : NULL;
 }
 
 static void tree_dispose(AVLNode *node) {
@@ -157,8 +159,9 @@ static void tree_dispose(AVLNode *node) {
     }
     tree_dispose(node->left);
     tree_dispose(node->right);
-    znode_del(container_of(node, ZNode, tree));
+    znode_del(container_of(static_cast<AVLNode*>(node), &ZNode::tree));
 }
+
 
 // destroy the zset
 void zset_clear(ZSet *zset) {
